@@ -1,4 +1,5 @@
-<?php namespace App\Controllers;
+<?php
+namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
@@ -6,10 +7,17 @@ class Dashboard extends Controller
 {
     public function index()
     {
-        // $session = session();
-        // echo "Welcome back, ".$session->get('user_name');
-        return view("dashboard");
-       
+        $session = session();
 
+        if(!$session->get('logged_in')){
+            return redirect()->to('/login');
+        }
+
+        $data = [
+            'user_name'  => $session->get('user_name'),
+            'user_email' => $session->get('user_email')
+        ];
+
+        return view('dashboard', $data);
     }
 }
